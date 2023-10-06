@@ -1,0 +1,77 @@
+//第三次创意编程作业
+int a, prev, curr,c;
+float s;
+float mult = 0.8;
+color[] colors = {#F53434, #4D42EA, #EADA42, #FFFFFC, #080702};
+
+void setup() {
+  size(1500, 1500);
+  rectMode(RADIUS);
+  noLoop();
+  init();
+}
+
+void init() {
+  a = int(random(2, 8));
+  s = width/(a+1);
+  c = int(random(1,4));
+}
+
+void draw() {
+  background(#FFFFFF);
+  for (int i = 0; i < a; i++) {
+    for (int j = 0; j < a; j++) {
+      if (random(1) < 0.5) {
+        circles((i+c)*s, (j+c)*s, s*mult);
+      } else {
+        rects((i+1)*s, (j+1)*s, s*mult/2);
+      }
+    }
+  }
+}
+//circle:
+void circles(float x, float y, float size) {
+  pushMatrix();
+  translate(x, y);
+  prev = int(random(colors.length));
+  fill(colors[prev]);
+  strokeWeight(5);
+  ellipse(0, 0, size, size);
+  
+  float angle = random(-PI, PI); 
+  rotate(angle);
+  curr = int(random(colors.length));
+  while (curr == prev) {
+    curr = int(random(colors.length));
+  }
+  fill(colors[curr]);
+  strokeWeight(5);
+  ellipse(size/4, 0, size/2, size/c);
+  popMatrix();
+}
+//rectangle:
+void rects(float x, float y, float size) {
+  pushMatrix();
+  translate(x, y);
+  prev = int(random(colors.length));
+  fill(colors[prev]);
+  strokeWeight(5);
+  rect(0, 0, size, size);
+  float[][] coor = {{0, 0}, {size/2, 0}, {0, size/2}, {-size/2, 0}, {0, -size/2}};
+  
+  int q = int(random(coor.length));
+  translate(coor[q][0], coor[q][1]);
+  curr = int(random(colors.length));
+  while (curr == prev) {
+    curr = int(random(colors.length));
+  }
+  fill(colors[curr]);
+  strokeWeight(5);
+  rect(0, 0, size/c, size/c);
+  popMatrix();
+}
+
+void mouseReleased() {
+  init();
+  redraw();
+}
