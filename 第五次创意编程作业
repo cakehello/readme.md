@@ -1,0 +1,39 @@
+PImage img;
+float s;
+int count;
+
+void setup() {
+  size(3114, 1800);
+  background(255);
+  noStroke();
+  img = loadImage("人群.png");
+}
+
+void draw() {
+  background(255);
+  s = map(mouseX, 0, width, 1, 100);
+  for (int y = 0; y < img.height; y+=s ) {
+    for (int x = 0; x < img.width; x+=s) {
+      int loc = x + (y * img.width);   
+      rectMode(CENTER);
+      float bt = brightness(img.pixels[loc]);
+      moveB(bt, s, x, y);
+    }
+  }
+  count ++;
+  println("count: " + count);
+}
+
+
+void  moveB(float bt, float s, float x, float y) {
+  int weight=int(map(bt, 100, 255, 10, 1));
+  float s1=s;
+  if (weight>0) {
+    float interval=s1/weight;
+    for (int i=0; i<=s1; i=i+1) {
+      strokeWeight(1);
+      stroke(0);
+      line(x+i*interval, y, x+i*interval, y);
+    }
+  }
+}
