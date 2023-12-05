@@ -1,0 +1,59 @@
+//DA ZUO YE
+float cake;
+float hello;
+ 
+//MUSIC  
+import ddf.minim.*;
+import ddf.minim.signals.*;
+Minim minim;
+AudioPlayer mySound;
+ 
+//MAIN SETUP
+void setup () {
+  fullScreen(P3D);
+  noCursor();
+  smooth();
+  background (0);
+  frameRate(24);
+ 
+  minim = new Minim(this);
+  mySound = minim.loadFile("Murph.mp3");    
+  mySound.play();
+}
+ 
+void draw () {
+ 
+  fill(0,50);  
+  noStroke();
+  rect(0, 0, width, height);
+  translate(width/2, height/2);
+ 
+  for (int i = 0; i < mySound.bufferSize() - 1; i++) {
+ 
+    float angle = sin(i+cake)* 10; 
+    float angle2 = sin(i+hello)* 300; 
+ 
+    float x = sin(radians(i))*(angle2+30); 
+    float y = cos(radians(i))*(angle2+30);
+ 
+    float x3 = sin(radians(i))*(500/angle); 
+    float y3 = cos(radians(i))*(500/angle);
+ 
+    fill (#A63BFF, 90);
+    ellipse(x, y, mySound.left.get(i)*10, mySound.left.get(i)*10);
+ 
+   fill ( #FB40FF, 60); 
+    rect(x3, y3, mySound.left.get(i)*20, mySound.left.get(i)*10);
+ 
+    fill ( #ff9800  , 90); 
+    rect(x, y, mySound.right.get(i)*10, mySound.left.get(i)*10);
+ 
+ 
+   fill( #ffffff , 70); 
+    rect(x3, y3, mySound.right.get(i)*10, mySound.right.get(i)*20);
+  }
+ 
+  cake += 0.008;
+  hello += 0.04;
+ 
+}
